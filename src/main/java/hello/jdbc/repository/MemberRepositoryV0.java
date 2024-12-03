@@ -68,6 +68,48 @@ public class MemberRepositoryV0 {
         }
     }
 
+    public void update(String memberId, int money) throws SQLException {
+        String sql = "update member set money = ? where member_id = ?";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, money);
+            pstmt.setString(2, memberId);
+            int resultSize = pstmt.executeUpdate();
+            log.info("resultSize = {}", resultSize);
+        } catch (SQLException e) {
+            log.error("db error", e);
+            throw e;
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
+    public void delete(String memberId) throws SQLException {
+        String sql = "delete from member where member_id = ?";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, memberId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            log.error("db error", e);
+            throw e;
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
     private void close(Connection conn, Statement stmt, ResultSet rs) {
         // 이미 닫을 때 예외가 터진거라 어떻게 더 처리 할 방법이 없음
         if (rs != null) {

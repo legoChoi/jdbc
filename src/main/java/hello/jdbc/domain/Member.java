@@ -1,12 +1,8 @@
 package hello.jdbc.domain;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter @Setter
-@ToString @EqualsAndHashCode
+@Data
 public class Member {
 
     private String memberId;
